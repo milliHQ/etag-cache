@@ -69,5 +69,10 @@ jobs:
       - name: Set git user to GitHub Actions
         uses: fregante/setup-git-user@v1.0.1
 
+      - name: npm authentication
+        run: |
+          echo "registry=https://registry.npmjs.org/" >> ~/.npmrc
+          echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
+
       - name: Publish release
         run: pnpm release:ci
