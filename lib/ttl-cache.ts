@@ -1,37 +1,51 @@
 /**
- * A minimal TTL cache with focus on performance.
+ * A minimal time to live (TTL) cache with focus on performance.
  * Expired items are only purged from cache during set operation.
- * Get operation does not modify the cache, so that get is usually more
- * performant than set.
+ * Get operation does not modify the cache, so that the get operation is
+ * usually more performant than set.
  */
 class TTLCache<T> {
   /**
-   * The minimum time to life (TTL) for the objects in the data map.
+   * The minimum time to live (TTL) for the objects in the data map.
    */
-  minTTL: number;
+  private minTTL: number;
   /**
    * Holds the data
    */
-  data: Map<string, T>;
+  private data: Map<string, T>;
   /**
    * Holds the expiration times in ms.
    */
-  expirationMap: Map<string, number>;
+  private expirationMap: Map<string, number>;
   /**
    * List of all expirations
    */
-  expirations: Record<number, string[]>;
+  private expirations: Record<number, string[]>;
+  /**
+   * Callback that gets triggered when an item gets removed from the cache.
+   */
+  private onDeleteCallback: ((key: string) => void) | undefined;
 
   /**
    * @param ttl milliseconds until an entry is considered stale.
+   * @param onDeleteCallback Optional callback that gets triggered when an item
+   *  gets removed from the cache.
    */
-  constructor(minTTL: number) {
+  constructor(minTTL: number, onDeleteCallback?: (key: string) => void) {
     this.minTTL = minTTL;
     this.data = new Map();
     this.expirationMap = new Map();
     this.expirations = Object.create(null);
+    this.onDeleteCallback = onDeleteCallback;
   }
 
+  /**
+   * Add an item to the cache.
+   *
+   * @param key
+   * @param value
+   * @param ttl
+   */
   set(key: string, value: T, ttl: number = 0) {
     const minTTL = Math.max(this.minTTL, ttl);
     const time = Date.now();
@@ -53,6 +67,12 @@ class TTLCache<T> {
     }
   }
 
+  /**
+   * Retrieve an item from the cache.
+   *
+   * @param key
+   * @returns
+   */
   get(key: string): {
     expired: boolean;
     item: T;
@@ -75,7 +95,8 @@ class TTLCache<T> {
   }
 
   /**
-   * Purges stale items from cache
+   * Purges stale items from cache.
+   *
    * @param time
    * @returns
    */
@@ -90,13 +111,19 @@ class TTLCache<T> {
       for (const key of this.expirations[exp]) {
         this.data.delete(key);
         this.expirationMap.delete(key);
+
+        // Notify about removal from cache
+        if (this.onDeleteCallback) {
+          this.onDeleteCallback(key);
+        }
       }
       delete this.expirations[exp];
     }
   }
 
   /**
-   * Update the TTL of an existing item in the cache
+   * Update the TTL of an existing item in the cache.
+   *
    * @param key
    */
   updateTTL(key: string, ttl: number = 0) {
