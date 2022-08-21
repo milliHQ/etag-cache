@@ -1,6 +1,7 @@
 {
   "name": "@millihq/etag-cache",
   "version": "1.0.1",
+  "type": "commonjs",
   "description": "Simple in-memory caching solution that supports revalidation via eTag and time-to-live (TTL)",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",

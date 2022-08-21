@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+- Republish package as `commonjs` module
+
 ## [1.0.1] - 2022-08-21
 
 - Updates `package.json` metadata
