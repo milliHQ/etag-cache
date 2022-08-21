@@ -1,7 +1,7 @@
 {
   "name": "@millihq/etag-cache",
   "version": "1.0.0",
-  "description": "Extension of a time-to-live (TTL) cache that stores an etag",
+  "description": "Simple in-memory caching solution that supports revalidation via eTag and time-to-live (TTL)",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
@@ -10,9 +10,16 @@
     "release": "release-it",
     "release:ci": "release-it --no-increment --no-git.push --ci"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "cache",
+    "TTL",
+    "eTag"
+  ],
   "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/milliHQ/etag-cache.git"
+  },
   "devDependencies": {
     "@release-it/keep-a-changelog": "^3.1.0",
     "@types/jest": "^28.1.7",
