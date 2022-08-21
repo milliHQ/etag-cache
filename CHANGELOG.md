@@ -1,3 +1,5 @@
 # Changelog of eTag cache
 
-[Unreleased]
+## [Unreleased]
+
+- Initial release.
