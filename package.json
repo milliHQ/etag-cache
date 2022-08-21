@@ -2,18 +2,26 @@
   "name": "@millihq/etag-cache",
   "version": "0.0.1",
   "description": "Extension of a time-to-live (TTL) cache that stores an etag",
-  "main": "index.js",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "tsc",
-    "test": "jest"
+    "build": "tsc --project tsconfig.build.json",
+    "test": "jest",
+    "release": "release-it",
+    "release:ci": "release-it --no-increment --no-git.push --ci"
   },
   "keywords": [],
   "author": "",
   "license": "Apache-2.0",
   "devDependencies": {
+    "@release-it/keep-a-changelog": "^3.1.0",
     "@types/jest": "^28.1.7",
     "jest": "^28.1.3",
+    "release-it": "^15.3.0",
     "ts-jest": "^28.0.8",
     "typescript": "^4.7.4"
-  }
+  },
+  "files": [
+    "dist/**"
+  ]
 }
