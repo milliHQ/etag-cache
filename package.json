@@ -1,6 +1,6 @@
 {
   "name": "@millihq/etag-cache",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Extension of a time-to-live (TTL) cache that stores an etag",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
